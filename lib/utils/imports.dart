@@ -14,6 +14,7 @@ export 'package:shopping_demo/helper/repo/auth_repo.dart';
 
 export 'package:shopping_demo/view/authentication/sign_up_screen.dart';
 export 'package:shopping_demo/view/home_screen/home_screen.dart';
+export 'package:shopping_demo/view/authentication/sign_in_screen.dart';
 
 /// Model
 
@@ -23,6 +24,7 @@ export 'package:shopping_demo/model/product_model.dart';
 export 'package:shopping_demo/controller/product_list_controller.dart';
 export 'package:shopping_demo/controller/auth_Ccontroller/sign_up_controller.dart';
 export 'package:shopping_demo/controller/auth_Ccontroller/sign_in_sontroller.dart';
+export 'package:shopping_demo/controller/cart_controller.dart';
 
 
 /// Packages

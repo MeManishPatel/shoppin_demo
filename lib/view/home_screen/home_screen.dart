@@ -1,6 +1,4 @@
 
-
-import 'package:shopping_demo/controller/cart_controller.dart';
 import 'package:shopping_demo/utils/imports.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,62 +29,67 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-          backgroundColor: AppColors.themeColor,
-          appBar: AppBar(
-            title: Text(str_cart),
-            actions: [
-              TextButton(
-                  onPressed: (){
-                    validateAndLogOut();
-                  },
-                  child: Text('LogOut',style: AppTextStyles.appTextStyle(color: Colors.white,fontSize: 15),)
-              ),
-              Stack(
-                children: [
-                  IconButton(
-                      onPressed: (){},
-                      icon: const Icon(Icons.shopping_cart, color: Colors.white,)),
-                  Positioned(
-                      left: 20,
-                      right: 20,
-                      child: Obx(() => Text(cartController.cartLength.value.toString(),style: AppTextStyles.appTextStyle(color: Colors.white, fontWeight: FontWeight.bold),))),
+    return GestureDetector(
+      onTap: (){
+        FocusScope.of(context).unfocus();
+      },
+      child: SafeArea(
+          child: Scaffold(
+            backgroundColor: AppColors.themeColor,
+            appBar: AppBar(
+              title: Text(str_cart),
+              actions: [
+                TextButton(
+                    onPressed: (){
+                      validateAndLogOut();
+                    },
+                    child: Text('LogOut',style: AppTextStyles.appTextStyle(color: Colors.white,fontSize: 15),)
+                ),
+                Stack(
+                  children: [
+                    IconButton(
+                        onPressed: (){},
+                        icon: const Icon(Icons.shopping_cart, color: Colors.white,)),
+                    Positioned(
+                        left: 20,
+                        right: 20,
+                        child: Obx(() => Text(cartController.cartLength.value.toString(),style: AppTextStyles.appTextStyle(color: Colors.white, fontWeight: FontWeight.bold),))),
 
-                ],
-              ),
-            ],
-          ),
-          body: GetBuilder<ProductListController>(
-            init: productListController,
-            builder: (controller){
-              return controller.isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15),
-                        child: TextField(
-                          autofocus: false,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Search Product',
-                            hintText: 'Search Your Product',
+                  ],
+                ),
+              ],
+            ),
+            body: GetBuilder<ProductListController>(
+              init: productListController,
+              builder: (controller){
+                return controller.isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15),
+                          child: TextField(
+                            autofocus: false,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Search Product',
+                              hintText: 'Search Your Product',
+                            ),
+                            onChanged: (value){
+                              print("--------Onchnage called-");
+                              validateAndShowSearchResult(val : value);
+                            },
                           ),
-                          onChanged: (value){
-                            print("--------Onchnage called-");
-                            validateAndShowSearchResult(val : value);
-                          },
                         ),
-                      ),
-                      Expanded(
-                          child: isSearching?showSearchedData():buildGridView(controller: controller)
-                      ),
-                    ],
-                  );
-            },
-          ),
-        )
+                        Expanded(
+                            child: isSearching?showSearchedData():buildGridView(controller: controller)
+                        ),
+                      ],
+                    );
+              },
+            ),
+          )
+      ),
     );
   }
 
@@ -156,16 +159,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void validateAndShowSearchResult({required String val}) {
-
-    print("---------Ti   ::    Value => ${val}--------------");
+    print("search called");
     productListController.productListModel?.forEach((element) {
       isSearching = true;
-      if(element.title!.contains(val)){
-        print("---------Title => ${element.title}    ::    Value => ${val}--------------");
+      if(element.id!.toString().contains(val)){
         searchedList.add(element);
       }
       setState(() {});
     });
+    setState(() {});
 
   }
 

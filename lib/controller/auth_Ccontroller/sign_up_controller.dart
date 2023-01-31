@@ -6,9 +6,9 @@ import '../../utils/imports.dart';
 class SignUpController extends GetxController {
   AuthenticationRepository authenticationRepository = Get.put(AuthenticationRepository());
 
-  Future<UserCredential?> registerUser(String email, String password) async {
+  Future<UserCredential?> registerUser(BuildContext context,String email, String password) async {
 
-    UserCredential? result = await authenticationRepository.createUserWithEmailAndPassword(email, password);
+    UserCredential? result = await authenticationRepository.createUserWithEmailAndPassword(context,email, password);
     User? user = result?.user;
 
     if (user != null) {

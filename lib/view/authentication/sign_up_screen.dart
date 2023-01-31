@@ -18,10 +18,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-          body: buildBody(),
-        )
+    return GestureDetector(
+      onTap: (){
+        FocusScope.of(context).unfocus();
+      },
+      child: SafeArea(
+          child: Scaffold(
+            body: buildBody(),
+          )
+      ),
     );
   }
 
@@ -64,6 +69,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 confirmPassword = value;
               }),
           const SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Already Have Account?"),
+              GestureDetector(
+                onTap: (){
+                  Get.to(SignInScreen());
+                },
+                child: Text(" Login",style: AppTextStyles.appTextStyle(color: Colors.red),),
+              ),
+            ],
+          ),
+          const SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
           ElevatedButton(
               onPressed: (){
                 validateAndSignUp();
@@ -83,12 +101,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
     bool isValidEmail = (email!='' && email.length>=6);
     bool isValidPassword = (password!='' && password.length > 6 && password==confirmPassword);
 
-    if(isValidEmail && isValidPassword){
-      signUpController.registerUser(email, password).then((value){
+    if(isValidEmail == true && isValidPassword == true){
+      signUpController.registerUser(context,email, password).then((value){
         isLoading = false;
         setState(() {});
         print("SignUp Return => ${value.toString()}");
       });
+    }else{
+      isLoading = false;
+      setState(() {});
+      const snackBar = SnackBar(content: Text("Enter Valid Email And Password"), backgroundColor: Colors.red);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 
